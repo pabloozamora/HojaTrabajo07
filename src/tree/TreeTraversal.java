@@ -17,10 +17,11 @@ public class TreeTraversal<K, V> implements ITreeTraversal{
 	public String getAssociations() {
 		String associations = "";
 		for (int i = 0; i < keys.size(); i++) {
+			associations += "(";
 			associations += keys.get(i);
 			associations += ", ";
 			associations += values.get(i);
-			associations += " ";
+			associations += ") ";
 		}
 		return associations;
 	}

@@ -17,27 +17,13 @@ public class Dictionary {
 		frDictionary.insert(french.toLowerCase(), spanish.toLowerCase());
 	}
 	
-	private int detectLanguage(String text) {
-		String[] words = text.split(" ", 0);
-		for (String word : words){
-			if (engDictionary.find(word) != null) {
-				return 1;
-			}
-		}
-		for (String word : words){
-			if (frDictionary.find(word) != null) {
-				return 2;
-			}
-		}
-		return 0;
-	}
-	
 	public String translate(String word) {
+		word.toLowerCase();
 		if (engDictionary.find(word) != null) {
-			return engDictionary.find(word);
+			return "*" + engDictionary.find(word) + "*";
 		}
 		if (frDictionary.find(word) != null) {
-			return frDictionary.find(word);
+			return "*" + frDictionary.find(word) + "*";
 		}
 		return word;
 	}
@@ -57,7 +43,12 @@ public class Dictionary {
 		return result;
 	}
 	
-	/*public String deleteWord(String word) {
-		
-	}*/
+	public String deleteWord(String english, String french) {
+		String result = null;
+		if (engDictionary.find(english.toLowerCase())!=null && frDictionary.find(french.toLowerCase())!=null) {
+			result = engDictionary.delete(english);
+			frDictionary.delete(french);
+		}
+		return result;
+	}
 }
