@@ -1,4 +1,4 @@
-package dictionary;
+package tree;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,7 +6,7 @@ import java.util.Comparator;
 public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 	
 	private int count;
-	private TreeNode<K, V> root;
+	private BinaryTree<K, V> root;
 	private Comparator<K> keyComparator;
 	
 	public BinarySearchTree(Comparator<K> _keyComparator) {
@@ -20,7 +20,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 	public void insert(K id, V value) {
 		
 		if (isEmpty()) {
-			root = new TreeNode<K, V>(id, value);
+			root = new BinaryTree<K, V>(id, value);
 			count++;
 		} else {
 			internalInsert(root, id, value);
@@ -51,7 +51,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 					
 					if (root.getRight() != null) { //Buscar hijo derecho mas izquierdo
 							
-						TreeNode<K, V> leftOfTheRights = root.getRight();
+						BinaryTree<K, V> leftOfTheRights = root.getRight();
 						
 						while(leftOfTheRights.getLeft() != null) {
 							leftOfTheRights = leftOfTheRights.getLeft(); 
@@ -66,7 +66,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						if (keyComparator.compare(root.getRight().getId(), leftOfTheRights.getId()) != 0) { //Only if the leftOfTheRights is different than root.right
 							leftOfTheRights.getParent().setLeft(null);
 							
-							TreeNode<K, V> newRootRight = leftOfTheRights;
+							BinaryTree<K, V> newRootRight = leftOfTheRights;
 							
 							while (newRootRight.getRight() != null) {
 								newRootRight = newRootRight.getRight();
@@ -91,7 +91,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						
 					} else { //Buscar hijo izquierdo mas derecho
 						
-						TreeNode<K, V> rightOfTheLefts = root.getLeft();
+						BinaryTree<K, V> rightOfTheLefts = root.getLeft();
 						
 						while(rightOfTheLefts.getRight() != null) {
 							rightOfTheLefts = rightOfTheLefts.getRight(); 
@@ -106,7 +106,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						if (keyComparator.compare(root.getLeft().getId(), rightOfTheLefts.getId()) != 0) { //Only if the rightOfTheLefts is different than root.left
 							rightOfTheLefts.getParent().setRight(null);
 							
-							TreeNode<K, V> newRootLeft = rightOfTheLefts;
+							BinaryTree<K, V> newRootLeft = rightOfTheLefts;
 							
 							while (newRootLeft.getLeft() != null) {
 								newRootLeft = newRootLeft.getLeft();
@@ -166,30 +166,30 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 	}
 
 	@Override
-	public void inOrder(ITreeTraversal<V> traversal) {
+	public void inOrder(ITreeTraversal<K, V> traversal) {
 		internalInOrder(root, traversal);
 	}
 
 	@Override
-	public void preOrder(ITreeTraversal<V> traversal) {
+	public void preOrder(ITreeTraversal<K, V> traversal) {
 		internalPreOrder(root, traversal);
 		
 	}
 
 	@Override
-	public void postOrder(ITreeTraversal<V> traversal) {
+	public void postOrder(ITreeTraversal<K, V> traversal) {
 		internalPostOrder(root, traversal);
 	}
 	
 
-	private void internalInsert(TreeNode<K, V> actual, K id, V value) {
+	private void internalInsert(BinaryTree<K, V> actual, K id, V value) {
 		
 		int result = keyComparator.compare(actual.getId(), id);
 		
 		if (result > 0) { //actual id is greater than new id then search in the left side
 			
 			if (actual.getLeft() == null) { //Doesn't have left children
-				TreeNode<K, V> newNode = new TreeNode<K, V>(id, value);
+				BinaryTree<K, V> newNode = new BinaryTree<K, V>(id, value);
 				actual.setLeft(newNode);
 				newNode.setParent(actual);
 				count++;
@@ -199,7 +199,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 			
 		} else if (result < 0) { //actual id is smaller than the new then search in the right
 			if (actual.getRight() == null) { //Doesn't have left children
-				TreeNode<K, V> newNode = new TreeNode<K, V>(id, value);
+				BinaryTree<K, V> newNode = new BinaryTree<K, V>(id, value);
 				actual.setRight(newNode);
 				newNode.setParent(actual);
 				count++;
@@ -210,19 +210,19 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		
 	}
 	
-	private void internalInOrder(TreeNode<K, V> actual, ITreeTraversal<V> traversal) {
+	private void internalInOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
 			internalInOrder(actual.getLeft(), traversal);
 			
-			traversal.Walk(actual.getValue());
+			traversal.Walk(actual.getId(), actual.getValue());
 			
 			internalInOrder(actual.getRight(), traversal);
 		}
 	}
 	
-	private void internalPreOrder(TreeNode<K, V> actual, ITreeTraversal<V> traversal) {
+	private void internalPreOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
-			traversal.Walk(actual.getValue());
+			traversal.Walk(actual.getId(), actual.getValue());
 			
 			internalPreOrder(actual.getLeft(), traversal);
 			
@@ -230,18 +230,18 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
-	private void internalPostOrder(TreeNode<K, V> actual, ITreeTraversal<V> traversal) {
+	private void internalPostOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
 		
 			internalPostOrder(actual.getLeft(), traversal);
 			
 			internalPostOrder(actual.getRight(), traversal);
 			
-			traversal.Walk(actual.getValue());
+			traversal.Walk(actual.getId(), actual.getValue());
 		}
 	}
 	
-	private V internalFind(TreeNode<K, V> actual, K id) {
+	private V internalFind(BinaryTree<K, V> actual, K id) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);
 			
@@ -258,7 +258,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
-	private void internalGetElements(ArrayList<V> list, TreeNode<K, V> actual) {
+	private void internalGetElements(ArrayList<V> list, BinaryTree<K, V> actual) {
 		if (actual != null) {
 			internalGetElements(list, actual.getLeft());
 			
@@ -268,7 +268,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
-	private V internalDelete(TreeNode<K, V> actual, K id, boolean isLeft) {
+	private V internalDelete(BinaryTree<K, V> actual, K id, boolean isLeft) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);
 			
@@ -296,7 +296,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 					
 					if (actual.getRight() != null) { //Buscar hijo derecho mas izquierdo
 						
-						TreeNode<K, V> leftOfTheRights = actual.getRight();
+						BinaryTree<K, V> leftOfTheRights = actual.getRight();
 						
 						while(leftOfTheRights.getLeft() != null) {
 							leftOfTheRights = leftOfTheRights.getLeft(); 
@@ -311,7 +311,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						if (keyComparator.compare(actual.getRight().getId(), leftOfTheRights.getId()) != 0) { //Only if the leftOfTheRights is different than root.right
 							leftOfTheRights.getParent().setLeft(null);
 							
-							TreeNode<K, V> newRootRight = leftOfTheRights;
+							BinaryTree<K, V> newRootRight = leftOfTheRights;
 							
 							while (newRootRight.getRight() != null) {
 								newRootRight = newRootRight.getRight();
@@ -341,7 +341,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						
 					} else { //Buscar hijo izquierdo mas derecho
 						
-						TreeNode<K, V> rightOfTheLefts = actual.getLeft();
+						BinaryTree<K, V> rightOfTheLefts = actual.getLeft();
 						
 						while(rightOfTheLefts.getRight() != null) {
 							rightOfTheLefts = rightOfTheLefts.getRight(); 
@@ -356,7 +356,7 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 						if (keyComparator.compare(actual.getLeft().getId(), rightOfTheLefts.getId()) != 0) { //Only if the rightOfTheLefts is different than root.left
 							rightOfTheLefts.getParent().setRight(null);
 							
-							TreeNode<K, V> newRootLeft = rightOfTheLefts;
+							BinaryTree<K, V> newRootLeft = rightOfTheLefts;
 							
 							while (newRootLeft.getLeft() != null) {
 								newRootLeft = newRootLeft.getLeft();

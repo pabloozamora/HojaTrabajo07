@@ -1,4 +1,4 @@
-package dictionary;
+package tree;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,10 @@ public interface IBinarySearchTree<K, V> {
 	
 	ArrayList<V> getElements();
 	
-	void inOrder(ITreeTraversal<V> traversal);
+	void inOrder(ITreeTraversal<K, V> traversal);
 	
-	void preOrder(ITreeTraversal<V> traversal);
+	void preOrder(ITreeTraversal<K, V> traversal);
 	
-	void postOrder(ITreeTraversal<V> traversal);
+	void postOrder(ITreeTraversal<K, V> traversal);
 	
 }

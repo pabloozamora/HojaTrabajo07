@@ -1,14 +1,14 @@
-package dictionary;
+package tree;
 
-public class TreeNode<K, V> {
+public class BinaryTree<K, V> {
 
 	private V value;
 	private K id;
-	private TreeNode<K, V> left;
-	private TreeNode<K, V> right;
-	private TreeNode<K, V> parent;
+	private BinaryTree<K, V> left;
+	private BinaryTree<K, V> right;
+	private BinaryTree<K, V> parent;
 	
-	public TreeNode(K id, V value) {
+	public BinaryTree(K id, V value) {
 		setId(id);
 		setValue(value);
 		setLeft(null);
@@ -43,40 +43,39 @@ public class TreeNode<K, V> {
 	/**
 	 * @return the left
 	 */
-	public TreeNode<K, V> getLeft() {
+	public BinaryTree<K, V> getLeft() {
 		return left;
 	}
 	/**
 	 * @param left the left to set
 	 */
-	public void setLeft(TreeNode<K, V> left) {
+	public void setLeft(BinaryTree<K, V> left) {
 		this.left = left;
 	}
 	/**
 	 * @return the right
 	 */
-	public TreeNode<K, V> getRight() {
+	public BinaryTree<K, V> getRight() {
 		return right;
 	}
 	/**
 	 * @param right the right to set
 	 */
-	public void setRight(TreeNode<K, V> right) {
+	public void setRight(BinaryTree<K, V> right) {
 		this.right = right;
 	}
 	/**
 	 * @return the parent
 	 */
-	public TreeNode<K, V> getParent() {
+	public BinaryTree<K, V> getParent() {
 		return parent;
 	}
 	/**
 	 * @param parent the parent to set
 	 */
-	public void setParent(TreeNode<K, V> parent) {
+	public void setParent(BinaryTree<K, V> parent) {
 		this.parent = parent;
 	}
 	
 	
 }
-
