@@ -1,4 +1,10 @@
 package dictionary;
+/**
+ * Programa que, mediante un arbol binario, permite agregar, editar y eliminar palabras de un diccionario ingles-espanol y frances-espanol,
+ * asi como traducir un texto en ingles o frances, palabra por palabra.
+ * Realizado por Pablo Andres Zamora Vasquez - 21780. el 08/04/2022
+ */
+
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,6 +41,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Metodo main. Busca el archivo diccionario.txt para agregar su contenido a los diccionarios y despliega
+	 * las distintas opciones que puede realizar el usuario con el diccionario. En este metodo se instancia
+	 * la clase Dictionary.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Dictionary dictionary = new Dictionary();
 		boolean endProgram = false;
@@ -46,7 +58,7 @@ public class Main {
 		boolean fileFound = false;
 		String[] fileContent = null;
 		System.out.println("\nBienvenido al diccionario ingles-espanol y frances-espanol\nBuscando el archivo diccionario.txt...");
-		while(!fileFound) { //Bucle para encontrar el archivo
+		while(!fileFound) { //Bucle para encontrar el archivo diccionario.txt
 			try { //Se encuentra el archivo
 				FileController dictionaryFile = new FileController("\\src\\dictionary\\diccionario.txt");
 				fileContent = dictionaryFile.readFile();
@@ -58,16 +70,16 @@ public class Main {
 			}
 		}
 		
-		System.out.println("\nArchivo encontrado");
+		System.out.println("\nArchivo encontrado"); //Se encuentra el archivo
 		int linecount = 1;
-		for (String entry: fileContent) {
+		for (String entry: fileContent) { //Se agregan las palabras dentro de este a los diccionarios
 			String [] words = entry.toLowerCase().split(",", 0);
 			dictionary.addWord(words[1], words[0], words[2]);
 		}
 		
-		while (!endProgram) {
+		while (!endProgram) { //Bucle principal
 			int option = getValidInt(scan, mainMenu, false, 1,2,3,4,5,6);
-			if (option == 1) {
+			if (option == 1) { //Agregar una nueva palabra
 				System.out.println("\nIngrese la palabra en espanol:");
 				String spanish = scan.nextLine();
 				System.out.println("\nIngrese la palabra en ingles:");
@@ -76,12 +88,12 @@ public class Main {
 				String french = scan.nextLine();
 				dictionary.addWord(spanish, english, french);
 			}
-			else if (option == 2) {
+			else if (option == 2) {//Editar una palabra
 				System.out.println("\nPara encontrar la palabra, ingresela en ingles:");
 				String english = scan.nextLine();
 				System.out.println("\nAhora, ingresela en frances:");
 				String french = scan.nextLine();
-				String deleteWord = dictionary.deleteWord(english, french);
+				String deleteWord = dictionary.deleteWord(english, french); //Se elimina el nodo de la palabra correspondiente de cada diccionario
 				if (deleteWord!=null) {
 					System.out.println("\nEditando la palabra: " + deleteWord);
 					System.out.println("\nIngrese la palabra en espanol:");
@@ -90,7 +102,7 @@ public class Main {
 					english = scan.nextLine();
 					System.out.println("\nIngrese la palabra en frances:");
 					french = scan.nextLine();
-					dictionary.addWord(spanish, english, french);
+					dictionary.addWord(spanish, english, french); //Se ingresa la nueva palabra
 					System.out.println("\nPalabra editada con exito");
 				}
 				else {
@@ -98,7 +110,7 @@ public class Main {
 				}
 			}
 			
-			else if (option == 3) {
+			else if (option == 3) { //Eliminar una palabra
 				System.out.println("\nPara encontrar la palabra, ingresela en ingles:");
 				String english = scan.nextLine();
 				System.out.println("\nAhora, ingresela en frances:");
@@ -112,7 +124,7 @@ public class Main {
 				}
 			}
 			
-			else if (option == 4) {
+			else if (option == 4) {//Traducir el contenido de un archivo de texto
 				try { //Se encuentra el archivo
 					FileController textFile = new FileController("\\src\\dictionary\\texto.txt");
 					String[] textfileContent = textFile.readFile();
@@ -133,7 +145,7 @@ public class Main {
 				}
 			}
 			
-			else if (option == 5) {
+			else if (option == 5) {//Desplegar las entradas de uno de los diccionarios in-order
 				int optEntries = getValidInt(scan, "\nIngrese el diccionario cuyas entradas desea ver:\n1. Ingles-espanol\n2. Frances-espanol", false, 1,2);
 				if (optEntries == 1) {
 					System.out.println("\nEntradas del diccionario ingles-espanol:");
@@ -147,12 +159,12 @@ public class Main {
 					System.out.println("Opcion no valida\n");
 				}
 			}
-			else if (option == 6) {
+			else if (option == 6) { //Finalizar el programa
 				System.out.println("\nGracias por utilizar el diccionario ingles-espanol y frances-espanol. Feliz dia.");
 				endProgram = true;
 			}
 			
-			else {
+			else { //Opcion no valida
 				System.out.println("Opcion no valida");
 			}
 		}

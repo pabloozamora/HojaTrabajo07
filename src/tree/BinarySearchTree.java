@@ -3,19 +3,35 @@ package tree;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Clase BinarySearchTree. Posee los metodos necesarios para la insercion, eliminacion y busqueda
+ * de valores dentro de la estructura de un arbol binario.
+ * @author MAAG
+ * @version 08/04/2022
+ * @param K Clase a la que pertenecen las llaves
+ * @param V Clase a la que pertencen los valores
+ */
 public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 	
 	private int count;
 	private BinaryTree<K, V> root;
 	private Comparator<K> keyComparator;
 	
+	/**
+	 * Metodo constructor.
+	 * @param _keyComparator Comparador que se utilizara para ordenar los nodos por llave
+	 */
 	public BinarySearchTree(Comparator<K> _keyComparator) {
 		this.keyComparator = _keyComparator;
 		root = null;
 		count = 0;
 	}
-	
 
+	/**
+	 * Metodo insert. Permite insertar un nuevo nodo dentro del arbol
+	 * @param id K. Llave del nodo
+	 * @param value V. Valor del nodo
+	 */
 	@Override
 	public void insert(K id, V value) {
 		
@@ -27,6 +43,10 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 
+	/**
+	 * Metodo delete. Permite eliminar un nodo del arbol y reorganizarlo.
+	 * @param id K. Llave del nodo
+	 */
 	@Override
 	public V delete(K id) {
 		if (!isEmpty()) {
@@ -141,21 +161,37 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		return null;
 	}
 
+	/**
+	 * Metodo find. Permite obtener el valor de un nodo.
+	 * @param id K. Llave del nodo
+	 */
 	@Override
 	public V find(K id) {
 		return internalFind(root, id);
 	}
 
+	/**
+	 * Metodo count. Permite obtener el conteo de nodos.
+	 * @return int. Cantidad de nodos
+	 */
 	@Override
 	public int count() {
 		return count;
 	}
 
+	/**
+	 * Metodo isEmpty. Permite determinar si el arbol esta vacio.
+	 * return boolean. True si esta vacio, false si no lo esta
+	 */
 	@Override
 	public boolean isEmpty() {
 		return count == 0;
 	}
 
+	/**
+	 * Metodo getElements. Permite obtener un arreglo con todos los valores del arbol binario.
+	 * @return ArrayList. Listado de los valores del arbol.
+	 */
 	@Override
 	public ArrayList<V> getElements() {
 		ArrayList<V> list = new ArrayList<V>();
@@ -165,23 +201,41 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		return list;
 	}
 
+	/**
+	 * Metodo inOrder. Permite recorrer el arbol inOrder.
+	 * @param traversal. ITreeTraversal<K,V> traversal que recopila los valores en el orden indicado
+	 */
 	@Override
 	public void inOrder(ITreeTraversal<K, V> traversal) {
 		internalInOrder(root, traversal);
 	}
 
+	/**
+	 * Metodo inOrder. Permite recorrer el arbol preOrder.
+	 * @param traversal. ITreeTraversal<K,V> traversal que recopila los valores en el orden indicado
+	 */
 	@Override
 	public void preOrder(ITreeTraversal<K, V> traversal) {
 		internalPreOrder(root, traversal);
 		
 	}
 
+	/**
+	 * Metodo inOrder. Permite recorrer el arbol postOrder.
+	 * @param traversal. ITreeTraversal<K,V> traversal que recopila los valores en el orden indicado
+	 */
 	@Override
 	public void postOrder(ITreeTraversal<K, V> traversal) {
 		internalPostOrder(root, traversal);
 	}
 	
 
+	/**
+	 * metodo internalInsert. Realiza la insercion de un nodo.
+	 * @param actual BinaryTree<K, V> Nodo actual
+	 * @param id K. Llave del nuevo nodo
+	 * @param value V. Valor del nuevo nodo
+	 */
 	private void internalInsert(BinaryTree<K, V> actual, K id, V value) {
 		
 		int result = keyComparator.compare(actual.getId(), id);
@@ -210,6 +264,11 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		
 	}
 	
+	/**
+	 * Metodo internalInOrder. Recorre el arbol in-order.
+	 * @param actual BinaryTree<K, V> Nodo de donde comienza el recorrido
+	 * @param traversal ITreeTraversal<K, V> traversal que recopila los valores del arbol
+	 */
 	private void internalInOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
 			internalInOrder(actual.getLeft(), traversal);
@@ -220,6 +279,11 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
+	/**
+	 * Metodo internalInOrder. Recorre el arbol pre-order.
+	 * @param actual BinaryTree<K, V> Nodo de donde comienza el recorrido
+	 * @param traversal ITreeTraversal<K, V> traversal que recopila los valores del arbol
+	 */
 	private void internalPreOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
 			traversal.Walk(actual.getId(), actual.getValue());
@@ -230,6 +294,11 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
+	/**
+	 * Metodo internalInOrder. Recorre el arbol post-order.
+	 * @param actual BinaryTree<K, V> Nodo de donde comienza el recorrido
+	 * @param traversal ITreeTraversal<K, V> traversal que recopila los valores del arbol
+	 */
 	private void internalPostOrder(BinaryTree<K, V> actual, ITreeTraversal<K, V> traversal) {
 		if (actual != null) {
 		
@@ -241,6 +310,12 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
+	/**
+	 * Metodo internalFind. Realiza la busqueda de un nodo,
+	 * @param actual BinaryTree<K, V> nodo actual
+	 * @param id K. Llave del nodo a encontrar
+	 * @return V. Valor del nodo encontrado.
+	 */
 	private V internalFind(BinaryTree<K, V> actual, K id) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);
@@ -258,6 +333,11 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
+	/**
+	 * Metodo internalGetElements. Recorre el arbol para obtener todos sus valores.
+	 * @param list ArrayList<V> Lista de valores
+	 * @param actual BinaryTree<K, V> Nodo actual
+	 */
 	private void internalGetElements(ArrayList<V> list, BinaryTree<K, V> actual) {
 		if (actual != null) {
 			internalGetElements(list, actual.getLeft());
@@ -268,6 +348,13 @@ public class BinarySearchTree<K, V> implements IBinarySearchTree<K, V> {
 		}
 	}
 	
+	/**
+	 * Metodo internalDelete. Realiza la eliminacion de un nodo.
+	 * @param actual BinaryTree<K, V> Nodo actual
+	 * @param id K. Llave del nodo a eliminar
+	 * @param isLeft boolean. Determina si el nodo era hijo izquierdo
+	 * @return V. Valor del nodo eliminado
+	 */
 	private V internalDelete(BinaryTree<K, V> actual, K id, boolean isLeft) {
 		if (actual != null) {
 			int result = keyComparator.compare(actual.getId(), id);

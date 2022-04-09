@@ -1,5 +1,10 @@
 package tree;
 
+/**
+ * Clase BinaryTree. Posee los metodos necesarios para el manejo de un nodo de un arbol binario..
+ * @author MAAG
+ * @version 08/04/2022
+ */
 public class BinaryTree<K, V> {
 
 	private V value;
